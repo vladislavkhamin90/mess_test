@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.mess_test.api.ApiClient
+import com.example.mess_test.network.ApiProvider
 import com.example.mess_test.network.RegisterRequest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -41,7 +41,7 @@ class RegisterFragment : Fragment(R.layout.frag_register) {
 
             lifecycleScope.launch {
                 try {
-                    val response = ApiClient.api.register(
+                    val response = ApiProvider.api.register(
                         RegisterRequest(
                             username = username,
                             password = password
@@ -50,6 +50,7 @@ class RegisterFragment : Fragment(R.layout.frag_register) {
 
                     prefs.edit()
                         .putString("token", response.token)
+                        .putString("userId", response.userId)
                         .apply()
 
                     findNavController().navigate(
@@ -57,7 +58,6 @@ class RegisterFragment : Fragment(R.layout.frag_register) {
                     )
 
                 } catch (e: HttpException) {
-
                     when (e.code()) {
                         400 -> {
                             Toast.makeText(
@@ -74,11 +74,10 @@ class RegisterFragment : Fragment(R.layout.frag_register) {
                             ).show()
                         }
                     }
-
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireContext(),
-                        "Ошибка сети: ${e.localizedMessage}",
+                        "Ошибка сети",
                         Toast.LENGTH_LONG
                     ).show()
                 }

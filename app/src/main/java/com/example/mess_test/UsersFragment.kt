@@ -21,7 +21,7 @@ class UsersFragment : Fragment(R.layout.frag_users) {
 
         toolbar.setNavigationOnClickListener{
             navController.navigate(
-                R.id.loginFragment)
+                R.id.action_usersFragment_to_loginFragment)
         }
 
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
