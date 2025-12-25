@@ -23,12 +23,9 @@
         android:id="@+id/registerFragment"
         android:name="com.example.mess_test.RegisterFragment"
         android:label="Register">
-
         <action
-            android:id="@+id/action_register_to_users"
-            app:destination="@id/usersFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -39,6 +36,9 @@
         <action
             android:id="@+id/action_users_to_chat"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -49,5 +49,8 @@
         <argument
             android:name="userId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
     </fragment>
 </navigation>

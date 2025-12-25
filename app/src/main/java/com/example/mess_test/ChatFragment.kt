@@ -23,9 +23,10 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
 
 
         val toUserId = arguments?.getString("userId")
-            ?: run {
-                return
-            }
+        if (toUserId == null) {
+            findNavController().popBackStack()
+            return
+        }
 
         val myUserId = requireContext()
             .getSharedPreferences("auth", Context.MODE_PRIVATE)
@@ -74,9 +75,7 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbarMess)
 
         toolbar.setNavigationOnClickListener { view
-            findNavController().navigate(
-                R.id.action_register_to_users
-            )
+            findNavController().popBackStack()
         }
     }
 

@@ -25,7 +25,7 @@ class LoginFragment : Fragment(R.layout.frag_login) {
 
         val tokenInput = view.findViewById<EditText>(R.id.token)
         val loginBtn = view.findViewById<Button>(R.id.loginBtn)
-        val registerBtn = view.findViewById<Button>(R.id.registerBtn)
+        val registerBtn = view.findViewById<Button>(R.id.goRegisterBtn)
 
         loginBtn.setOnClickListener {
             val entered = tokenInput.text.toString()
