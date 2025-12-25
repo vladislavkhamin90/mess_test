@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mess_test.model.Message
@@ -18,6 +20,7 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
     private val messages = mutableListOf<Message>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
 
         val toUserId = arguments?.getString("userId")
             ?: run {
@@ -66,6 +69,14 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
             recycler.scrollToPosition(messages.lastIndex)
 
             input.setText("")
+        }
+
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbarMess)
+
+        toolbar.setNavigationOnClickListener { view
+            findNavController().navigate(
+                R.id.action_register_to_users
+            )
         }
     }
 
