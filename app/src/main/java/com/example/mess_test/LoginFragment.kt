@@ -11,23 +11,39 @@ import androidx.navigation.fragment.findNavController
 class LoginFragment : Fragment(R.layout.frag_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val tokenInput = view.findViewById<EditText>(R.id.token)
 
-        val long = view.findViewById<Button>(R.id.loginBtn)
-        val register = view.findViewById<Button>(R.id.registerBtn)
+        val prefs = requireContext()
+            .getSharedPreferences("auth", Context.MODE_PRIVATE)
 
-        long.setOnClickListener {
-            requireContext()
-                .getSharedPreferences("auth", Context.MODE_PRIVATE)
-                .edit()
-                .putString("token", tokenInput.text.toString())
-                .apply()
-
-            findNavController().navigate(R.id.usersFragment)
+        val token = prefs.getString("token", null)
+        if (!token.isNullOrEmpty()) {
+            findNavController().navigate(
+                R.id.action_login_to_users
+            )
+            return
         }
 
-        register.setOnClickListener {
-            findNavController().navigate(R.id.registerFragment)
+        val tokenInput = view.findViewById<EditText>(R.id.token)
+        val loginBtn = view.findViewById<Button>(R.id.loginBtn)
+        val registerBtn = view.findViewById<Button>(R.id.registerBtn)
+
+        loginBtn.setOnClickListener {
+            val entered = tokenInput.text.toString()
+            if (entered.isBlank()) return@setOnClickListener
+
+            prefs.edit()
+                .putString("token", entered)
+                .apply()
+
+            findNavController().navigate(
+                R.id.action_login_to_users
+            )
+        }
+
+        registerBtn.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_login_to_register
+            )
         }
     }
 }

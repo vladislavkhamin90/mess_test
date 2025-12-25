@@ -33,7 +33,9 @@ class RegisterFragment : Fragment(R.layout.frag_register) {
                     .putString("token", res.token)
                     .apply()
 
-                findNavController().navigate(R.id.usersFragment)
+                findNavController().navigate(
+                    R.id.action_register_to_users
+                )
             }
         }
     }

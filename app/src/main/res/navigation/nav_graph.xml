@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/registerFragment">
-
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.mess_test.RegisterFragment"/>
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.mess_test.LoginFragment">
+        android:name="com.example.mess_test.LoginFragment"
+        android:label="Login">
+
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
+            android:id="@+id/action_login_to_register"
             app:destination="@id/registerFragment" />
+
         <action
-            android:id="@+id/action_loginFragment_to_usersFragment"
-            app:destination="@id/usersFragment" />
+            android:id="@+id/action_login_to_users"
+            app:destination="@id/usersFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.mess_test.RegisterFragment"
+        android:label="Register">
+
+        <action
+            android:id="@+id/action_register_to_users"
+            app:destination="@id/usersFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/usersFragment"
-        android:name="com.example.mess_test.UsersFragment">
+        android:name="com.example.mess_test.UsersFragment"
+        android:label="Users">
+
         <action
-            android:id="@+id/action_usersFragment_to_chatFragment"
+            android:id="@+id/action_users_to_chat"
             app:destination="@id/chatFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.example.mess_test.ChatFragment">
+        android:name="com.example.mess_test.ChatFragment"
+        android:label="Chat">
+
         <argument
             android:name="userId"
-            app:argType="string"/>
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mess_test.model.Message
@@ -21,19 +19,19 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val toUserId = arguments?.getString("userId")!!
+        val toUserId = arguments?.getString("userId")
+            ?: run {
+                return
+            }
+
         val myUserId = requireContext()
             .getSharedPreferences("auth", Context.MODE_PRIVATE)
-            .getString("token", "")!!
+            .getString("token", null)
+            ?: run {
+                return
+            }
 
         adapter = ChatAdapter(myUserId)
-        val navController = findNavController()
-
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbarMess)
-
-        toolbar.setNavigationOnClickListener {
-            navController.popBackStack()
-        }
 
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
         recycler.layoutManager = LinearLayoutManager(requireContext()).apply {
@@ -49,7 +47,10 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
         }
 
         view.findViewById<Button>(R.id.sendBtn).setOnClickListener {
-            val text = view.findViewById<EditText>(R.id.message).text.toString()
+            val input = view.findViewById<EditText>(R.id.message)
+            val text = input.text.toString()
+
+            if (text.isBlank()) return@setOnClickListener
 
             val msg = Message(
                 from = myUserId,
@@ -63,11 +64,15 @@ class ChatFragment : Fragment(R.layout.frag_chat) {
             messages.add(msg)
             adapter.submitList(messages.toList())
             recycler.scrollToPosition(messages.lastIndex)
+
+            input.setText("")
         }
     }
 
     override fun onDestroyView() {
-        socket.close()
+        if (::socket.isInitialized) {
+            socket.close()
+        }
         super.onDestroyView()
     }
 }

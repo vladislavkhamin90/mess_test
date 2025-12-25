@@ -20,7 +20,8 @@ class UsersFragment : Fragment(R.layout.frag_users) {
         val navController = findNavController()
 
         toolbar.setNavigationOnClickListener{
-            navController.popBackStack()
+            navController.navigate(
+                R.id.loginFragment)
         }
 
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
