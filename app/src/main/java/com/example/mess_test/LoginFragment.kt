@@ -16,9 +16,10 @@ class LoginFragment : Fragment(R.layout.frag_login) {
             .getSharedPreferences("auth", Context.MODE_PRIVATE)
 
         val token = prefs.getString("token", null)
-        if (!token.isNullOrEmpty()) {
+
+        if (token.isNullOrEmpty()) {
             findNavController().navigate(
-                R.id.action_login_to_users
+                R.id.loginFragment
             )
             return
         }
